@@ -1,27 +1,23 @@
 package com.example.untitleddiscordbot.services;
 
 import com.example.untitleddiscordbot.data.DetailedGuild.DetailedGuild;
-import com.example.untitleddiscordbot.models.GuildModel.GuildModel;
 import com.example.untitleddiscordbot.templates.ResponseHandler;
-import io.netty.channel.ChannelOption;
-import io.netty.handler.timeout.ReadTimeoutHandler;
-import io.netty.handler.timeout.WriteTimeoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.BodyInserter;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-
-
-import reactor.netty.http.client.HttpClient;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 
 import java.net.URI;
-import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class AsyncService {
@@ -31,17 +27,36 @@ public class AsyncService {
 
     @Async
     public CompletableFuture<ResponseEntity<Object>> callDiscordForGuild(String guildId, String authHeader){
-        final String url = "https://discord.com/api/guilds/" + guildId;
 
-        WebClient client = WebClient.create();
 
+        String guildJSON = WebClient.create().get()
+                .uri("https://discord.com/api/guilds/" + guildId + "?with_counts=true")
+                .header(HttpHeaders.AUTHORIZATION, authHeader)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        String channelsJSON = WebClient.create().get()
+                .uri("https://discord.com/api/guilds/" + guildId + "/channels")
+                .header(HttpHeaders.AUTHORIZATION, authHeader)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        String membersJSON = WebClient.create().get()
+                .uri("https://discord.com/api/guilds/" + guildId + "/members?limit=1000")
+                .header(HttpHeaders.AUTHORIZATION, authHeader)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        List<String> JSONs = new ArrayList<>();
+        JSONs.add(guildJSON);
+        JSONs.add(channelsJSON);
+        JSONs.add(membersJSON);
 
         return CompletableFuture.completedFuture(
                  ResponseHandler.generateResponse("OK", HttpStatus.OK,
-                         client.get()
-                                 .uri(URI.create(url))
-                                 .header("Authorization", authHeader)
-                                 .accept(MediaType.APPLICATION_JSON)
-                                 .retrieve().toEntity(DetailedGuild.class).block()));
+                         JSONs));
     }
 }

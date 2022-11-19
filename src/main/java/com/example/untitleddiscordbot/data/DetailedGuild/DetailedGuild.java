@@ -11,6 +11,9 @@ public class DetailedGuild{
 	@SerializedName("preferred_locale")
 	private String preferredLocale;
 
+	@SerializedName("approximate_presence_count")
+	private int approximatePresenceCount;
+
 	@SerializedName("embed_channel_id")
 	private String embedChannelId;
 
@@ -43,6 +46,9 @@ public class DetailedGuild{
 
 	@SerializedName("features")
 	private List<String> features;
+
+	@SerializedName("approximate_member_count")
+	private int approximateMemberCount;
 
 	@SerializedName("afk_channel_id")
 	private Object afkChannelId;
@@ -144,6 +150,14 @@ public class DetailedGuild{
 		return preferredLocale;
 	}
 
+	public void setApproximatePresenceCount(int approximatePresenceCount){
+		this.approximatePresenceCount = approximatePresenceCount;
+	}
+
+	public int getApproximatePresenceCount(){
+		return approximatePresenceCount;
+	}
+
 	public void setEmbedChannelId(String embedChannelId){
 		this.embedChannelId = embedChannelId;
 	}
@@ -230,6 +244,14 @@ public class DetailedGuild{
 
 	public List<String> getFeatures(){
 		return features;
+	}
+
+	public void setApproximateMemberCount(int approximateMemberCount){
+		this.approximateMemberCount = approximateMemberCount;
+	}
+
+	public int getApproximateMemberCount(){
+		return approximateMemberCount;
 	}
 
 	public void setAfkChannelId(Object afkChannelId){

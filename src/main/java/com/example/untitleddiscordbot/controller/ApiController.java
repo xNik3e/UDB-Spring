@@ -1,7 +1,6 @@
 package com.example.untitleddiscordbot.controller;
 
 import com.example.untitleddiscordbot.UntitledDiscordBot;
-import com.example.untitleddiscordbot.data.DetailedGuild.DetailedGuild;
 import com.example.untitleddiscordbot.services.AsyncService;
 import com.example.untitleddiscordbot.templates.ResponseHandler;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -17,10 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeoutException;
 
 @RestController
 @CrossOrigin("*")
