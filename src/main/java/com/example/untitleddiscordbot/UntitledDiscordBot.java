@@ -1,50 +1,50 @@
 package com.example.untitleddiscordbot;
 
-import com.example.untitleddiscordbot.listeners.EventListener;
+import com.example.untitleddiscordbot.configuration.BeanConfig;
+import com.example.untitleddiscordbot.controller.ApiController;
+
+import com.example.untitleddiscordbot.listeners.MyEventListener;
+import com.example.untitleddiscordbot.repository.SettingsRepository;
 import io.github.cdimascio.dotenv.Dotenv;
-import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
-import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.LoginException;
-
+@Service
 public class UntitledDiscordBot {
 
+    private final ShardManager shardManager;
     private final Dotenv config;
-    private static UntitledDiscordBot instance;
-
-    public static UntitledDiscordBot getInstance() {
-        if(instance == null){
-            try {
-                instance = new UntitledDiscordBot();
-            } catch (LoginException e) {
-                e.printStackTrace();
-            }
-        }
-        return instance;
-    }
-
+    private SettingsRepository settingsRepository;
 
     public ShardManager getShardManager() {
         return shardManager;
     }
 
-    private final ShardManager shardManager;
-
-    private UntitledDiscordBot() throws LoginException {
+    @Autowired
+    public UntitledDiscordBot(SettingsRepository repository) {
         config = Dotenv.configure().load();
-        DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(config.get("TOKEN"));
-        shardManager = builder.build();
+        settingsRepository = repository;
+        try {
+            DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(config.get("TOKEN"))
+                    .enableIntents(GatewayIntent.GUILD_MEMBERS)
+                    .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+                    .enableIntents(GatewayIntent.GUILD_MESSAGES);
+            ;
+            shardManager = builder.build();
 
-        //Register listeners
+            //Register listeners
+            shardManager.addEventListener(new MyEventListener(settingsRepository));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to login to discord");
+        }
 
-        shardManager.addEventListener(new EventListener());
     }
-
-
 
 
 }
