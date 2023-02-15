@@ -12,8 +12,8 @@ import java.util.List;
 public class ChannelPermissionsModel {
 
 
-    @SerializedName("isDefault")
-    private boolean isDefault;
+    @SerializedName("defaultChannel")
+    private boolean defaultChannel;
 
     @SerializedName("checked")
     private boolean checked;
@@ -21,8 +21,8 @@ public class ChannelPermissionsModel {
     @SerializedName("channelName")
     private String channelName;
 
-    @SerializedName("isGroup")
-    private boolean isGroup;
+    @SerializedName("grouped")
+    private boolean grouped;
 
     @SerializedName("type")
     private int type;

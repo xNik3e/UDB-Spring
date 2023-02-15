@@ -15,7 +15,7 @@ public class SettingsModel {
     private String id;
 
     @SerializedName("ignoredRoleIds")
-    private List<Object> ignoredRoleIds;
+    private List<String> ignoredRoleIds;
 
     @SerializedName("autoDeleteTrigger")
     private int autoDeleteTrigger;
