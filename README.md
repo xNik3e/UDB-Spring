@@ -15,6 +15,6 @@ The engineering project server layer capable of communicating with the Discord A
 
 <h2>Gallery</h2>
 
-https://raw.githubusercontent.com/xNik3e/UDB-Spring/main/media/filmik_converted.mp4
+<video src="https://raw.githubusercontent.com/xNik3e/UDB-Spring/main/media/filmik_converted.mp4" />
 
 <p><em>Usage demo</em></p>
