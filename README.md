@@ -17,7 +17,7 @@ The engineering project server layer capable of communicating with the Discord A
 
 https://user-images.githubusercontent.com/29351782/226181423-92429755-b641-42b1-8026-c4f13bafd7c8.mp4
 
-<p><em>Usage demo</em></p>
+<p align="center"><em>Usage demo</em></p>
 
 
 
