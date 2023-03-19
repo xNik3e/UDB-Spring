@@ -29,15 +29,12 @@ public class ApiController {
 
     @Autowired
     private SettingsRepository settingsRepository;
-
     @Autowired
     private UntitledDiscordBot bot;
-
-    private final Dotenv config = Dotenv.configure().load();
-
-
     @Autowired
     private AsyncService asyncService;
+
+    private final Dotenv config = Dotenv.configure().load();
 
 
     @PostMapping("api/getGuildsByIds")
@@ -53,8 +50,8 @@ public class ApiController {
             }
             return ResponseHandler.generateResponse(HttpStatus.OK.getReasonPhrase(), HttpStatus.OK, guilds);
         }
-        return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(), HttpStatus.BAD_REQUEST, null);
-
+        return ResponseHandler.generateResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                HttpStatus.BAD_REQUEST, null);
     }
 
     @Async

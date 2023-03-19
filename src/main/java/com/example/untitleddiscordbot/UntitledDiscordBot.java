@@ -30,21 +30,18 @@ public class UntitledDiscordBot {
         config = Dotenv.configure().load();
         settingsRepository = repository;
         try {
-            DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(config.get("TOKEN"))
+            DefaultShardManagerBuilder builder = DefaultShardManagerBuilder
+                    .createDefault(config.get("TOKEN"))
                     .enableIntents(GatewayIntent.GUILD_MEMBERS)
                     .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                     .enableIntents(GatewayIntent.GUILD_MESSAGES);
             ;
             shardManager = builder.build();
-
             //Register listeners
             shardManager.addEventListener(new MyEventListener(settingsRepository));
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to login to discord");
         }
-
     }
-
-
 }

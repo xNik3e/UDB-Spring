@@ -24,15 +24,10 @@ public class MyEventListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         Message message = event.getMessage();
-
-        Mentions mentions = message.getMentions();
-
         String prefix = "-";
         SettingsModel model = settingsRepository.findByGuildId(event.getGuild().getId());
         if (model != null && model.getPrefix() != null)
             prefix = model.getPrefix();
-
-        //check if the message is a command
 
         if (message.getContentRaw().startsWith(prefix) && !message.getAuthor().isBot()) {
             String command = message.getContentRaw().substring(prefix.length());
@@ -46,14 +41,12 @@ public class MyEventListener extends ListenerAdapter {
             else
                 action = event.getChannel().sendMessage("You do not have required permissions to use this command");
 
-            action.queue(message1 -> {
-                //check settings for autodelete
+            action.queue(message1 -> { //check settings for autodelete
                 if(model != null && model.isAutoDeleteResponseEnabled()){
                     new Timer().schedule(
                             new TimerTask() {
                                 @Override
                                 public void run() {
-                                    //delete message
                                     message1.delete().queue();
                                 }
                             }, (model.getAutoDeleteResponse() * 1000L)
