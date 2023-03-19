@@ -14,7 +14,7 @@ The engineering project server layer capable of communicating with the Discord A
 - [MongoDB](https://www.mongodb.com/)
 
 <h2>Gallery</h2>
-<div align="center">
-  <img src="media\udb_auth.gif" alt="Auth" width="50%" height="50%"> 
-  <p><em>Auth with Discord</em></p>
-</div>
+
+https://raw.githubusercontent.com/xNik3e/UDB-Spring/main/media/filmik_converted.mp4
+
+<p><em>Usage demo</em></p>
